@@ -1,8 +1,6 @@
 Assignment B-1: Making a function
 ================
 
-# Assignment B-1: Making a function
-
 ## Getting Started
 
 ``` r

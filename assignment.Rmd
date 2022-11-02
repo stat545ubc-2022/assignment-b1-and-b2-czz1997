@@ -2,7 +2,6 @@
 title: "Assignment B-1: Making a function"
 output: github_document
 ---
-# Assignment B-1: Making a function
 
 ## Getting Started
 
