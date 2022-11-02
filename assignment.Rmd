@@ -21,13 +21,10 @@ suppressPackageStartupMessages(library(datateachr))
 #' @details
 #' Summarize the percentage of rows that satisfies given condition(s) by group
 #'
-#' @param .data A data frame, data frame extension (e.g. a tibble),
-#'  or a lazy data frame (e.g. from dbplyr or dtplyr).
+#' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param group_by_cols Column names or ids to group the rows
-#' @param conditions  Conditions that a row should satisfy to be considered in
-#'  percentage calculation
-#' @return A summarized dataframe with all combinations of group_by_cols and a
-#'  new column "percentage"
+#' @param conditions Conditions that a row should satisfy to be considered in percentage calculation
+#' @return A summarized dataframe with all combinations of group_by_cols and a new column "percentage"
 percentage_by_group <- function(.data, group_by_cols, conditions = TRUE) {
     stopifnot(is.data.frame(.data))
     if(is.numeric(group_by_cols)) {
