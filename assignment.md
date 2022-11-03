@@ -7,8 +7,6 @@ Assignment B-1: Making a function
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(testthat))
 suppressPackageStartupMessages(library(dplyr))
-suppressPackageStartupMessages(library(gapminder))
-suppressPackageStartupMessages(library(broom))
 suppressPackageStartupMessages(library(datateachr))
 ```
 
@@ -20,9 +18,9 @@ suppressPackageStartupMessages(library(datateachr))
 #' Summarize the percentage of rows that satisfies given condition(s) by group
 #'
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
-#' @param group_by_cols Column names or ids to group the rows
+#' @param group_by_cols Column names or ids for grouping the rows
 #' @param conditions Conditions that a row should satisfy to be considered in percentage calculation
-#' @return A summarized dataframe with all combinations of group_by_cols and a new column "percentage"
+#' @return A summarized dataframe with all combinations of group_by_cols, and a new column called "percentage"
 percentage_by_group <- function(.data, group_by_cols, conditions = TRUE) {
     stopifnot(is.data.frame(.data))
     if(is.numeric(group_by_cols)) {
@@ -31,7 +29,7 @@ percentage_by_group <- function(.data, group_by_cols, conditions = TRUE) {
     .data %>%
     drop_na(all_of(group_by_cols)) %>%
     group_by(across(all_of(group_by_cols))) %>%
-    summarise(percentage = round(sum({{conditions}}) / n(), digits=2))
+    summarise(percentage = round(sum({{conditions}}, na.rm = TRUE) / n(), digits=2))
 }
 ```
 
@@ -47,7 +45,6 @@ year:
 ``` r
 apt_buildings %>%
     filter(year_built >= 1950) %>%
-    drop_na(sprinkler_system) %>%
     percentage_by_group('year_built', sprinkler_system == "YES")
 ```
 
@@ -55,15 +52,15 @@ apt_buildings %>%
     ##    year_built percentage
     ##         <dbl>      <dbl>
     ##  1       1950       0.42
-    ##  2       1951       0.32
+    ##  2       1951       0.26
     ##  3       1952       0.29
-    ##  4       1953       0.48
-    ##  5       1954       0.38
-    ##  6       1955       0.41
-    ##  7       1956       0.48
-    ##  8       1957       0.56
-    ##  9       1958       0.47
-    ## 10       1959       0.7 
+    ##  4       1953       0.47
+    ##  5       1954       0.33
+    ##  6       1955       0.39
+    ##  7       1956       0.45
+    ##  8       1957       0.54
+    ##  9       1958       0.46
+    ## 10       1959       0.67
     ## # … with 59 more rows
 
 Calculate the percentage of buildings that has at least 5 floors by year
@@ -72,7 +69,6 @@ and property type:
 ``` r
 apt_buildings %>%
     filter(year_built >= 1950) %>%
-    drop_na(year_built) %>%
     percentage_by_group(c('year_built', 'property_type'), no_of_storeys >= 5)
 ```
 
@@ -97,7 +93,7 @@ apt_buildings %>%
 
 ## Exercise 4: Test the Function
 
-First, sample a small data frame for testing:
+First, sample a small dataset for testing:
 
 ``` r
 set.seed(123)
@@ -128,26 +124,42 @@ Test with no NA’s:
 
 ``` r
 result <- apt_buildings_small %>%
-    percentage_by_group('year_built',
-    !is.na(sprinkler_system) & sprinkler_system == "YES")
+    percentage_by_group('year_built', sprinkler_system == "YES")
 expected <- as_tibble(data.frame(
     year_built = c(1955, 1956, 1957, 1958, 1959),
     percentage = c(0.43, 0.25, 0.62, 0.64, 0.6))
 )
-test_that("Test with no NA’s", {
+test_that("Test with no NA’s: percentage of buildings that has sprinkler system by year built", {
     expect_identical(result, expected)
 })
 ```
 
     ## Test passed 😸
 
+``` r
+result <- apt_buildings_small %>%
+    percentage_by_group('property_type', year_built < 1957)
+expected <- as_tibble(data.frame(
+    property_type = c('PRIVATE', 'SOCIAL HOUSING', 'TCHC'),
+    percentage = c(0.37, 0, 0.33))
+)
+test_that("Test with no NA’s: percentage of buildings that was built before 1957 by property type", {
+    expect_identical(result, expected)
+})
+```
+
+    ## Test passed 🎉
+
 Test with NA’s:
 
 ``` r
-apt_buildings_small[nrow(apt_buildings_small) + 1, ] <- NA # year_built column will have a NA value
+apt_buildings_small[nrow(apt_buildings_small) + 1, ] <- NA # insert a row of NA
 result <- apt_buildings_small %>%
-    percentage_by_group('year_built',
-    !is.na(sprinkler_system) & sprinkler_system == "YES")
+    percentage_by_group('year_built', sprinkler_system == "YES")
+expected <- as_tibble(data.frame(
+    year_built = c(1955, 1956, 1957, 1958, 1959),
+    percentage = c(0.43, 0.25, 0.62, 0.64, 0.6))
+)
 test_that("Test with NA’s", {
     expect_identical(result, expected)
 })
@@ -158,13 +170,26 @@ test_that("Test with NA’s", {
 Test with different type:
 
 ``` r
-test_that("Test with different type", {
+result <- apt_buildings_small %>%
+    percentage_by_group(28, sprinkler_system == "YES")
+expected <- as_tibble(data.frame(
+    year_built = c(1955, 1956, 1957, 1958, 1959),
+    percentage = c(0.43, 0.25, 0.62, 0.64, 0.6))
+)
+test_that("Test with different type: numeric factor for group_by_cols", {
+    expect_identical(result, expected)
+})
+```
+
+    ## Test passed 🎊
+
+``` r
+test_that("Test with different type: invalid numeric subscript vector for group_by_cols", {
     expect_error(
         apt_buildings_small %>%
-            percentage_by_group(c(1.1, 2, 3),
-            !is.na(sprinkler_system) & sprinkler_system == "YES")
+            percentage_by_group(c(1.1, 2, 3), sprinkler_system == "YES")
     )
 })
 ```
 
-    ## Test passed 🎉
+    ## Test passed 🎊
