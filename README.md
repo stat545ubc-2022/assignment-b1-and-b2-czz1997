@@ -1,11 +1,77 @@
-# STAT 545B Assignment 1 & 2: Making a function and an R package
 
-This repository is for STAT 545B assignment 1 and 2. Currently it only contains assignment 1.
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
-Please refer to course website for more information about [assignment 1](https://stat545.stat.ubc.ca/assignments/assignment-b1/) and [assignment 2](https://stat545.stat.ubc.ca/assignments/assignment-b2/).
+# groupByCols
 
-## Contents
-This repository contains three files: a README.md file briefly documenting key things about the repo, a .Rmd file that contains the code for the new function, and a .md file knitted from .Rmd file.
+<!-- badges: start -->
+<!-- badges: end -->
 
-## Getting Started
-Open and edit `assignment.Rmd` file to try out the new function, view `assignment.md` file for the compiled document.
+The goal of groupByCols is to …
+
+## Installation
+
+You can install the development version of groupByCols like so:
+
+``` r
+install_github("stat545ubc-2022/assignment-b1-and-b2-czz1997", ref = "0.1.0")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+## load the function
+library(groupByCols)
+## load other packages
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(datateachr))
+```
+
+Calculate the percentage of buildings that has a sprinkler system by
+year:
+
+``` r
+apt_buildings %>%
+    filter(year_built >= 1950) %>%
+    percentage_by_group('year_built', sprinkler_system == "YES")
+#> # A tibble: 69 × 2
+#>    year_built percentage
+#>         <dbl>      <dbl>
+#>  1       1950       0.42
+#>  2       1951       0.26
+#>  3       1952       0.29
+#>  4       1953       0.47
+#>  5       1954       0.33
+#>  6       1955       0.39
+#>  7       1956       0.45
+#>  8       1957       0.54
+#>  9       1958       0.46
+#> 10       1959       0.67
+#> # … with 59 more rows
+```
+
+Calculate the percentage of buildings that has at least 5 floors by year
+and property type:
+
+``` r
+apt_buildings %>%
+    filter(year_built >= 1950) %>%
+    percentage_by_group(c('year_built', 'property_type'), no_of_storeys >= 5)
+#> # A tibble: 163 × 3
+#> # Groups:   year_built [69]
+#>    year_built property_type  percentage
+#>         <dbl> <chr>               <dbl>
+#>  1       1950 PRIVATE              0.08
+#>  2       1950 SOCIAL HOUSING       0.25
+#>  3       1951 PRIVATE              0.07
+#>  4       1952 PRIVATE              0.14
+#>  5       1953 PRIVATE              0.21
+#>  6       1953 SOCIAL HOUSING       0   
+#>  7       1953 TCHC                 1   
+#>  8       1954 PRIVATE              0.11
+#>  9       1954 TCHC                 0   
+#> 10       1955 PRIVATE              0.18
+#> # … with 153 more rows
+```

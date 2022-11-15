@@ -1,0 +1,3 @@
+writeLines(readLines("LICENSE"))
+YEAR: 2022
+COPYRIGHT HOLDER: groupByCols authors

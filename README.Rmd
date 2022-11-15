@@ -1,0 +1,56 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# groupByCols
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of groupByCols is to ...
+
+## Installation
+
+You can install the development version of groupByCols like so:
+
+``` r
+install_github("stat545ubc-2022/assignment-b1-and-b2-czz1997", ref = "0.1.0")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+## load the function
+library(groupByCols)
+## load other packages
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(datateachr))
+```
+
+Calculate the percentage of buildings that has a sprinkler system by year:
+```{r}
+apt_buildings %>%
+    filter(year_built >= 1950) %>%
+    percentage_by_group('year_built', sprinkler_system == "YES")
+```
+
+Calculate the percentage of buildings that has at least 5 floors by year and property type:
+```{r}
+apt_buildings %>%
+    filter(year_built >= 1950) %>%
+    percentage_by_group(c('year_built', 'property_type'), no_of_storeys >= 5)
+```

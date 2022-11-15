@@ -1,0 +1,17 @@
+Package: groupByCols
+Title: Percentage by Group
+Version: 0.1.0
+Authors@R: 
+    person("Zhongze", "Chen", , "zze.chen@outlook.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9165-7224"))
+Description: Summarize the percentage of rows that satisfies given condition(s) by group.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Imports:
+    tidyverse,
+    dplyr,
+    datateachr,
+    testthat
+Config/testthat/edition: 3
