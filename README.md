@@ -14,7 +14,8 @@ satisfies given condition(s) by group
 You can install the development version of groupByCols like so:
 
 ``` r
-install_github("stat545ubc-2022/assignment-b1-and-b2-czz1997", ref = "0.1.1")
+# install.packages("devtools")
+devtools::install_github("stat545ubc-2022/assignment-b1-and-b2-czz1997", ref = "0.1.1")
 ```
 
 ## Example
