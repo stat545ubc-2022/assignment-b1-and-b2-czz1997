@@ -1,6 +1,6 @@
 Package: percentageByGroup
 Title: Percentage by Group
-Version: 0.1.1
+Version: 0.1.0
 Authors@R: 
     person("Zhongze", "Chen", , "zze.chen@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9165-7224"))
