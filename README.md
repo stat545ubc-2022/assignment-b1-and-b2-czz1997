@@ -1,17 +1,17 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# groupByCols
+# percentageByGroup
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of groupByCols is to summarize the percentage of rows that
-satisfies given condition(s) by group
+The goal of percentageByGroup is to summarize the percentage of rows
+that satisfies given condition(s) by group
 
 ## Installation
 
-You can install the development version of groupByCols like so:
+You can install the development version of percentageByGroup like so:
 
 ``` r
 # install.packages("devtools")
@@ -24,10 +24,17 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 ## load the function
-library(groupByCols)
-## load other packages
-suppressPackageStartupMessages(library(tidyverse))
-suppressPackageStartupMessages(library(dplyr))
+library(percentageByGroup)
+#> Loading required package: dplyr
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+## load the dataset
 suppressPackageStartupMessages(library(datateachr))
 ```
 

@@ -23,6 +23,10 @@ Percentage by Group
 Summarize the percentage of rows that satisfies given condition(s) by group
 }
 \examples{
-apt_buildings \%>\% filter(year_built >= 1950) \%>\% percentage_by_group('year_built', sprinkler_system == "YES")
-apt_buildings \%>\% filter(year_built >= 1950) \%>\% percentage_by_group(c('year_built', 'property_type'), no_of_storeys >= 5)
+datateachr::apt_buildings \%>\%
+filter(year_built >= 1950) \%>\%
+percentage_by_group('year_built', sprinkler_system == "YES")
+datateachr::apt_buildings \%>\%
+filter(year_built >= 1950) \%>\%
+percentage_by_group(c('year_built', 'property_type'), no_of_storeys >= 5)
 }

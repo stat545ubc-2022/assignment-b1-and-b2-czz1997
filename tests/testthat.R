@@ -7,6 +7,7 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(groupByCols)
+library(datateachr)
+library(percentageByGroup)
 
-test_check("groupByCols")
+test_check("percentageByGroup")

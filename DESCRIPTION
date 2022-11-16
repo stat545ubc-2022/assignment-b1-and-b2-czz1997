@@ -1,4 +1,4 @@
-Package: groupByCols
+Package: percentageByGroup
 Title: Percentage by Group
 Version: 0.1.1
 Authors@R: 
@@ -9,9 +9,11 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
+Depends:
+    dplyr
 Imports:
-    tidyverse,
-    dplyr,
+    tidyr
+Suggests:
     datateachr,
-    testthat
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
